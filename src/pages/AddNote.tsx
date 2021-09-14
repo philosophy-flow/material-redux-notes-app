@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { Controller } from "react-hook-form";
 
+import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
@@ -11,73 +13,115 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { addTodo } from "../redux/actions";
 
 export default function AddNote() {
-  const { register, handleSubmit } = useForm();
+  const [titleError, setTitleError] = useState(false);
+  const [contentError, setContentError] = useState(false);
+
+  const { handleSubmit, control } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Form submission handler
   const onSubmit = (data: {
     category: string;
     title: string;
     content: string;
   }) => {
     const { category, title, content } = data;
+
+    if (!title) {
+      setTitleError(true);
+    }
+    if (!content) {
+      setContentError(true);
+    }
+
     if (category && title && content) {
       dispatch(addTodo(category, title, content));
       history.push("/");
     }
   };
 
+  // Custom styles
+  const useStyles = makeStyles({
+    block: { display: "block" },
+    container: { paddingTop: "1rem" },
+  });
+  const classes = useStyles();
+
   return (
-    <Container>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Add an Item</h2>
-        {/* <input type="text" placeholder="Enter title..." {...register("title")} /> */}
+    <Container
+      component="form"
+      className={classes.container}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Typography variant="h5" component="h2">
+        Add an Item
+      </Typography>
 
-        <TextField variant="outlined" label="Title" fullWidth />
-        <TextField variant="outlined" label="Content" fullWidth />
-
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Category</FormLabel>
-          <RadioGroup aria-label="category" name="category" row>
-            <FormControlLabel control={<Radio />} label="Home" value="Home" />
-            <FormControlLabel control={<Radio />} label="Work" value="Work " />
-            <FormControlLabel
-              control={<Radio />}
-              label="Finance"
-              value="Finance"
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <Button type="submit" variant="contained" color="primary">
-          Add Item
-        </Button>
-
-        {/* <textarea
-        rows={5}
-        style={{ display: "block", fontFamily: "inherit" }}
-        placeholder="Enter content..."
-        {...register("content")}
-      /> */}
-
-        {/* <input type="radio" id="home" value="Home" {...register("category")} />
-      <label htmlFor="home">Home</label>
-      <input type="radio" id="work" value="Work" {...register("category")} />
-      <label htmlFor="work">Work</label>
-      <input
-        type="radio"
-        id="finance"
-        value="Finance"
-        {...register("category")}
+      <Controller
+        name="title"
+        defaultValue=""
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            error={titleError}
+            margin="normal"
+            variant="outlined"
+            label="Title"
+            fullWidth
+          />
+        )}
       />
-      <label htmlFor="finance">Finance</label> */}
 
-        {/* <button type="submit">Add Item</button> */}
-      </form>
+      <Controller
+        name="content"
+        defaultValue=""
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            error={contentError}
+            margin="normal"
+            variant="outlined"
+            label="Content"
+            fullWidth
+          />
+        )}
+      />
+
+      <Controller
+        name="category"
+        defaultValue="Home"
+        control={control}
+        render={({ field }) => (
+          <FormControl
+            component="fieldset"
+            margin="normal"
+            className={classes.block}
+          >
+            <FormLabel component="legend">Category</FormLabel>
+            <RadioGroup {...field} aria-label="category" row>
+              <FormControlLabel control={<Radio />} label="Home" value="Home" />
+              <FormControlLabel control={<Radio />} label="Work" value="Work" />
+              <FormControlLabel
+                control={<Radio />}
+                label="Finance"
+                value="Finance"
+              />
+            </RadioGroup>
+          </FormControl>
+        )}
+      />
+
+      <Button type="submit" variant="contained" color="primary">
+        Add Item
+      </Button>
     </Container>
   );
 }
