@@ -27,7 +27,7 @@ export default function NavigationDrawer() {
 
   return (
     <Drawer
-      style={{ width: 220 }}
+      style={{ width: 175 }}
       variant="permanent"
       anchor="left"
       classes={{ paper: classes.drawerPaper }}

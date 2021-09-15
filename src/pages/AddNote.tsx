@@ -49,16 +49,11 @@ export default function AddNote() {
   // Custom styles
   const useStyles = makeStyles({
     block: { display: "block" },
-    container: { paddingTop: "1rem" },
   });
   const classes = useStyles();
 
   return (
-    <Container
-      component="form"
-      className={classes.container}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h5" component="h2">
         Add an Item
       </Typography>
@@ -90,6 +85,8 @@ export default function AddNote() {
             margin="normal"
             variant="outlined"
             label="Content"
+            multiline={true}
+            minRows={3}
             fullWidth
           />
         )}
@@ -122,6 +119,6 @@ export default function AddNote() {
       <Button type="submit" variant="contained" color="primary">
         Add Item
       </Button>
-    </Container>
+    </form>
   );
 }

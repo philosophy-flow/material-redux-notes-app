@@ -1,21 +1,39 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux";
+import Masonry from "react-masonry-css";
+
+import Typography from "@material-ui/core/Typography";
+
+import Note from "../components/Note";
 
 export default function Notes() {
   const list = useSelector((state: RootState) => state.list);
 
-  const renderList = list.map((item) => (
-    <li key={item.id}>
-      <h3>{item.title}</h3>
-      <h5>{item.category}</h5>
-      <p>{item.content}</p>
-    </li>
-  ));
+  const renderList = list.map((item) => <Note item={item} key={item.id} />);
+
+  const breakpointColumnsObj = {
+    default: 3,
+    1200: 2,
+    850: 1,
+  };
 
   return (
     <>
-      <h1>Things to Get Done</h1>
-      {list.length ? <ul>{renderList}</ul> : <p>No items to display</p>}
+      <Typography variant="h5" component="h2" style={{ marginBottom: "1rem" }}>
+        Things to Get Done
+      </Typography>
+
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
+        {list.length ? (
+          renderList
+        ) : (
+          <Typography>No items to display</Typography>
+        )}
+      </Masonry>
     </>
   );
 }
