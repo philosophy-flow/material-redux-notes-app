@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -75,6 +75,21 @@ export default function Navigation() {
     handleDrawerToggle();
   };
 
+  // close mobile drawer on resize
+  useEffect(() => {
+    const handleResize = () => {
+      const { innerWidth: width } = window;
+
+      if (width === 600) {
+        setMobileOpen(false);
+        console.log("registered");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const drawer = (
     <div>
       <div className={classes.toolbar}>
@@ -95,17 +110,20 @@ export default function Navigation() {
         <Divider />
         <List>
           {[
-            { text: "Home", path: "/", icon: <HomeIcon /> },
-            { text: "Work", path: "/", icon: <WorkIcon /> },
+            { text: "Home", icon: <HomeIcon />, color: "#4dabf5" },
+            { text: "Work", icon: <WorkIcon />, color: "#f6685e" },
             {
               text: "Finance",
               path: "/",
               icon: <AttachMoneyIcon />,
+              color: "#6fbf73",
             },
           ].map((item) => (
             <Link to="/" className={classes.link} key={item.text}>
               <ListItem button onClick={() => handleClick(item.text)}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemIcon style={{ color: item.color }}>
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItem>
             </Link>
