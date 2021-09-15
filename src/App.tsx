@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 
-import Header from "./components/Header";
-import NavigationDrawer from "./components/NavigationDrawer";
+import Navigation from "./components/Navigation";
 import Notes from "./pages/Notes";
 import AddNote from "./pages/AddNote";
 
@@ -26,8 +25,7 @@ function App() {
   return (
     <Router>
       <div className={classes.root}>
-        <Header />
-        <NavigationDrawer />
+        <Navigation />
         <Container className={classes.container} component="main">
           <Switch>
             <Route path="/" exact>
