@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { Controller } from "react-hook-form";
 
-import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
@@ -12,7 +11,6 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { addTodo } from "../redux/actions";
@@ -54,10 +52,6 @@ export default function AddNote() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h5" component="h2">
-        Add an Item
-      </Typography>
-
       <Controller
         name="title"
         defaultValue=""

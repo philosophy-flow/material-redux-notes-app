@@ -46,6 +46,7 @@ export default function Note({ item }: { item: IListItem }) {
           </Avatar>
         }
         title={item.title}
+        subheader={item.addedOn}
         action={
           <IconButton aria-label="delete" onClick={() => handleDelete(item.id)}>
             <HighlightOffIcon />

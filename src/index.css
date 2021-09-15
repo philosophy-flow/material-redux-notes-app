@@ -13,6 +13,7 @@ ul {
   display: -ms-flexbox; /* Not needed if autoprefixing */
   display: flex;
   margin-left: -30px; /* gutter offset */
+  margin-top: 16px;
   width: auto;
 }
 .my-masonry-grid_column {

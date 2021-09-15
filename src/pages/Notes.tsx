@@ -8,8 +8,15 @@ import Note from "../components/Note";
 
 export default function Notes() {
   const list = useSelector((state: RootState) => state.list);
+  const category = useSelector((state: RootState) => state.selectedCategory);
 
-  const renderList = list.map((item) => <Note item={item} key={item.id} />);
+  let renderList;
+  if (category) {
+    const filteredList = list.filter((item) => item.category === category);
+    renderList = filteredList.map((item) => <Note item={item} key={item.id} />);
+  } else {
+    renderList = list.map((item) => <Note item={item} key={item.id} />);
+  }
 
   const breakpointColumnsObj = {
     default: 3,
@@ -19,10 +26,6 @@ export default function Notes() {
 
   return (
     <>
-      <Typography variant="h5" component="h2" style={{ marginBottom: "1rem" }}>
-        Things to Get Done
-      </Typography>
-
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid"
